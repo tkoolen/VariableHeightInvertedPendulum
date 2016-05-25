@@ -24,3 +24,7 @@ function orbital_energy(lipm::LIPM, state::Vector)
     xd = getxd(lipm, state)
     1/2 * xd^2 - lipm.g / (2 * lipm.z0) * x^2
 end
+
+function velocity_given_orbital_energy(lipm::LIPM, x, Eo)
+    xd = copysign(sqrt(2 * Eo + lipm.g / lipm.z0 * x^2), -x)
+end
