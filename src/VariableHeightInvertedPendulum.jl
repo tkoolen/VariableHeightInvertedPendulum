@@ -8,60 +8,10 @@ using ODE
 @pyimport matplotlib.animation as anim
 
 include("plotutil.jl")
-
 getomega(g, z) = √(g / z)
+include("lipm.jl")
+include("com_symbol.jl")
 
-type LIPM
-    g::Float64
-    z0::Float64
-    ω::Float64
-    LIPM(g, z0) = new(g, z0, getomega(g, z0))
-end
-
-getx(lipm::LIPM, state::Vector{Float64}) = state[1]
-getxd(lipm::LIPM, state::Vector{Float64}) = state[2]
-getz(lipm::LIPM, state::Vector{Float64}) = lipm.z0
-getzd(lipm::LIPM, state::Vector{Float64}) = 0.
-getztraj(lipm::LIPM, x::Float64) = lipm.z0
-normalized_leg_force(lipm::LIPM, state::Vector{Float64}) = lipm.g * [getx(lipm, state) / lipm.z0; 1]
-
-function odefun(lipm::LIPM, state::Vector)
-    x = getx(lipm, state)
-    xd = getxd(lipm, state)
-    xdd = lipm.ω^2 * x
-    [xd; xdd]
-end
-
-function orbital_energy(lipm::LIPM, state::Vector)
-    x = getx(lipm, state)
-    xd = getxd(lipm, state)
-    1/2 * xd^2 - lipm.g / (2 * lipm.z0) * x^2
-end
-
-type CoMSymbol
-    circle
-    wedges
-
-    function CoMSymbol(ax, radius, linewidth; zorder = 1)
-        circle = patches.Circle([0.; 0.], radius, color = "black", fill = false, linewidth = linewidth, zorder = zorder)
-        ax[:add_artist](circle)
-        wedges = []
-        for i = 1 : 4
-            color = isodd(i) ? "black" : "white"
-            wedge = patches.Wedge([0.; 0.], radius, (i - 1) * 90, i * 90, fc = color, zorder = zorder)
-            ax[:add_artist](wedge)
-            push!(wedges, wedge)
-        end
-        new(circle, wedges)
-    end
-end
-
-function set_center(com::CoMSymbol, center::Vector)
-    com.circle[:center] = center
-    for wedge in com.wedges
-        wedge[:set_center](center)
-    end
-end
 
 function sim_movie(model, state0, filename::ASCIIString; fps = 30., realtimerate = 0.25, dpi = 100, simtime = 1., test = false)
     ztraj_color = "#364b9f" # blue
