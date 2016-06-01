@@ -3,4 +3,5 @@ PyPlot
 IJulia
 ODE
 Polynomials
+ForwardDiff
 

@@ -4,6 +4,7 @@ using PyCall
 using PyPlot
 using ODE
 using Polynomials
+using ForwardDiff
 
 @pyimport matplotlib.patches as patches
 @pyimport matplotlib.animation as anim
@@ -23,6 +24,8 @@ export
     Scenario,
     velocity_given_orbital_energy,
     sim_movie,
+    zero_orbital_energy_trajectory,
+    is_force_always_nonnegative
     # create_mp4,
-    display_mp4
+    # display_mp4
 end

@@ -1,4 +1,5 @@
 type Scenario
-    name
+    name::ASCIIString
     model
+    initial_conditions::Vector
 end
