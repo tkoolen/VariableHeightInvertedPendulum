@@ -78,7 +78,7 @@ function sim_movie(model, state0, filename::ASCIIString;
         plt[:sca](ss_ax)
         traj = plot([], [], color = "red")[1]
         point = plot([], [], "ro")[1]
-        invalidcontour = nothing
+        validcontour = nothing
     end
 
     # force
@@ -181,8 +181,8 @@ function sim_movie(model, state0, filename::ASCIIString;
             # region of validity
             if show_region
                 plt[:sca](ss_ax)
-                if invalidcontour != nothing
-                    for collection in invalidcontour[:collections]
+                if validcontour != nothing
+                    for collection in validcontour[:collections]
                         collection[:remove]()
                     end
                 end
@@ -192,7 +192,7 @@ function sim_movie(model, state0, filename::ASCIIString;
                 xd_grid = [j::Float64 for i in xlinspace, j in xdlinspace]
                 opposite_velocity_mask = max(-sign((x_grid .* xd_grid)), 0)
                 valid = is_force_always_nonnegative_condition2(model.g, x_grid, z, xd_grid, zd, zf) .* opposite_velocity_mask
-                invalidcontour = contourf(x_grid, xd_grid, valid, levels = [-Inf, 0], colors = "r", alpha = 0.3, zorder = 1)
+                validcontour = contourf(x_grid, xd_grid, valid, levels = [0, Inf], colors = "g", alpha = 0.6, zorder = 1)
             end
         end
 
