@@ -1,6 +1,6 @@
 function sim_movie(model, state0, filename::ASCIIString;
-    test = false, fps = 30., realtimerate = 0.25, dpi = 100, simtime = 1., stilltime = 0.5,
-    restrict_ztraj = false, show_region = false, model_only = false, show_orbital_energy = true, font_size = 14, fig_size = (8., 6.))
+    staticplot = false, fps = 30., realtimerate = 0.25, dpi = 100, simtime = 1., stilltime = 0.5,
+    restrict_ztraj = false, show_region = false, model_only = false, show_orbital_energy = true, font_size = 12, fig_size = (8., 6.))
 
     ztraj_color = "#364b9f" # blue
     force_color = "#f37620" # orange
@@ -8,7 +8,7 @@ function sim_movie(model, state0, filename::ASCIIString;
 
     ioff()
     fig = figure(figsize = fig_size)
-    plt[:rc]("font", size = font_size)
+    plt[:rc]("font", size = font_size, family = "serif")
 
     if model_only
         ss_ax = nothing
@@ -36,8 +36,8 @@ function sim_movie(model, state0, filename::ASCIIString;
     ω = getomega(model.g, z0 - dzdx0 * x0)
 
     # title
-    realtimerate_text = (@sprintf "%0.2f" realtimerate) * "x"
-    tit = suptitle(realtimerate_text)
+    # realtimerate_text = (@sprintf "%0.2f" realtimerate) * "x"
+    # tit = suptitle(realtimerate_text)
 
     ts, states = ode45((t, state) -> odefun(model, state), state0, ts, points=:specified)
     xs = [getx(model, state)::Float64 for state in states]
@@ -60,18 +60,19 @@ function sim_movie(model, state0, filename::ASCIIString;
             axvline(linewidth = 0.5, color = "black")
 
             # eigenvectors
-            plot(xrange,  ω * xrange, "k--", linewidth = 1.0, zorder = 1)
-            plot(xrange, -ω * xrange, "k--", linewidth = 1.0, zorder = 1)
+            # plot(xrange,  ω * xrange, "k--", linewidth = 1.0, zorder = 1)
+            icpline = plot(xrange, -ω * xrange, "k--", linewidth = 1.0, zorder = 1, label = L"x + \sqrt{\frac{z_\mathrm{f}}{g}} \dot{x} = 0")
+            legend(handles = collect(icpline), frameon = true, handlelength = 3, handletextpad = 0, borderaxespad = 0.5, fontsize = 12)
 
             # ICP line annotation
-            xarrowtip = xrange[2] - 0.1 * diff(xrange)
-            arrowtip = [xarrowtip; -ω * xarrowtip]
-            offset = [-diff(xrange) / 2; 0]
-            annotate(L"x + \sqrt{\frac{z}{g}} \dot{x} = 0", xy = arrowtip, xytext = arrowtip + offset, xycoords="data", arrowprops = Dict("facecolor"=>"black"))
+            # xarrowtip = xrange[2] - 0.1 * diff(xrange)
+            # arrowtip = [xarrowtip; -ω * xarrowtip]
+            # offset = [-diff(xrange) / 2; 0]
+            # annotate(L"x + \sqrt{\frac{z}{g}} \dot{x} = 0", xy = arrowtip, xytext = arrowtip + offset, xycoords="data", arrowprops = Dict("facecolor"=>"black"))
 
             # axis labels
-            xlabel(L"x" * " (m)")
-            ylabel(L"\dot x" * " (m/s)")
+            xlabel(L"x" * " [m]")
+            ylabel(L"\dot x" * " [m/s]")
         end
 
         # dynamic objects
@@ -92,9 +93,10 @@ function sim_movie(model, state0, filename::ASCIIString;
             axhline(linewidth = 0.5, color = "black")
 
             # axis labels
-            xlabel(L"x" * " (m)")
-            # ylabel(L"u = \mathbf{f}_{\mathrm{leg}} \cdot \frac{\mathbf{q}}{|| \mathbf{q} ||}")
-            ylabel("normalized leg force ")
+            xlabel(L"x" * " [m]")
+            # ylabel(L"\mathbf{f}_{\mathrm{leg}} \cdot \frac{\mathbf{q}}{|| \mathbf{q} ||}")
+            # ylabeltext = staticplot ? L"\frac{\mathbf{f}_{\mathrm{gr}}}{mg} \cdot \frac{\mathbf{q}}{|| \mathbf{q} ||}" * " [-]" : "normalized leg force [-]"
+            ylabel("normalized leg force [-]")
         end
 
         # dynamic objects
@@ -111,26 +113,25 @@ function sim_movie(model, state0, filename::ASCIIString;
         # force_scale = (diff(zrange_model)[1] / 4) / max(map(f -> f[2], leg_forces)...)
         force_scale = (diff(zrange_model)[1] / 4) / model.g
         velocity_scale = (diff(xrange_model)[1] / 6)
-        let
-            plt[:sca](model_ax)
 
-            # z trajectory
-            xs_linspace = restrict_ztraj ? linspace(x0, 0, 100) : linspace(xrange_model[1], xrange_model[2], 100)
-            ztraj = [getztraj(model, x)::Float64 for x in xs_linspace]
-            plot(xs_linspace, ztraj, color = ztraj_color)
+        plt[:sca](model_ax)
 
-            # foot
-            plot([0], [0], "ko", zorder = 4)
+        # z trajectory
+        xs_linspace = restrict_ztraj ? linspace(x0, 0, 100) : linspace(xrange_model[1], xrange_model[2], 100)
+        ztraj = plot(xs_linspace, [getztraj(model, x)::Float64 for x in xs_linspace], color = ztraj_color, zorder = 6, label = "trajectory")
 
-            xlabel(L"x" * " (m)")
-            ylabel(L"z" * " (m)")
-            plt[:axis]("equal")
-            xlim(xrange_model)
-            ylim(zrange_model)
-        end
+        # foot
+        plot([0], [0], "ko", zorder = 4)
+
+        xlabel(L"x" * " [m]")
+        ylabel(L"z" * " [m]")
+        plt[:axis]("equal")
+        xlim(xrange_model)
+        ylim(zrange_model)
+        xticks([-0.4; -0.2; 0.; 0.2; 0.4])
 
         # dynamic objects
-        plt[:sca](model_ax)
+        # plt[:sca](model_ax)
         leg = plot([], [], color = "black")[1]
         com = CoMSymbol(model_ax, com_radius, 2.; zorder = 4)
         function add_arrow_patch(ax, color)
@@ -139,22 +140,26 @@ function sim_movie(model, state0, filename::ASCIIString;
         end
 
         fgrav = add_arrow_patch(model_ax, force_color)
-        fgravtext = text(0., 0., L"m \mathbf{g}")
+        fgravtext = text(0., 0., L"m \mathbf{g}", fontsize = font_size)
         fgravtext[:set_clip_on](true)
 
         fleg = add_arrow_patch(model_ax, force_color)
-        flegtext = text(0., 0., L"\mathbf{f}_{\mathrm{leg}}")
+        flegtext = text(0., 0., L"\mathbf{f}_{\mathrm{gr}}", fontsize = font_size)
         flegtext[:set_clip_on](true)
 
         qdot = add_arrow_patch(model_ax, velocity_color)
-        qdottext = text(0., 0., L"\dot{\mathbf{q}}_0")
+        qdottext = text(0., 0., L"\dot{\mathbf{q}}_0", fontsize = font_size)
         qdottext[:set_clip_on](true)
+
+        ztraj_sim = plot([], [], "r--", zorder = 7, label = "simulation")[1]
+
+        legend(handles = [ztraj; ztraj_sim], frameon = true, handlelength = 3, handletextpad = 0, borderaxespad = 0.5, fontsize = 12)
     end
 
     plt[:tight_layout]()
     plt[:subplots_adjust](top = 0.92)
 
-    if test
+    if staticplot
         trange = length(ts) : length(ts)
     else
         FFMpegWriter = get(anim.writers, "ffmpeg")
@@ -164,19 +169,21 @@ function sim_movie(model, state0, filename::ASCIIString;
     end
 
     for i in trange
-        x = xs[i]
-        z = zs[i]
-        xd = xds[i]
-        zd = zds[i]
+        state_ind = staticplot ? 1 : i
+        x = xs[state_ind]
+        z = zs[state_ind]
+        xd = xds[state_ind]
+        zd = zds[state_ind]
+
 
         Eo = orbital_energy(model, [x; xd])
-        show_orbital_energy && tit[:set_text](realtimerate_text * ", Orbital energy: " * (@sprintf "%0.2f" Eo))
+        # show_orbital_energy && tit[:set_text](realtimerate_text * ", Orbital energy: " * (@sprintf "%0.2f" Eo))
         # * ", " * L"z = " * "$z, " * L"\dot{z} = " * "$zd")
 
         # state space plot
         if ss_ax != nothing
             traj[:set_data](xs[1 : i], xds[1 : i])
-            point[:set_data](xs[i], xds[i])
+            point[:set_data](xs[state_ind], xds[state_ind])
 
             # region of validity
             if show_region
@@ -199,7 +206,7 @@ function sim_movie(model, state0, filename::ASCIIString;
         # force plot
         if force_ax != nothing
             utraj[:set_data](xs[1 : i], normalized_leg_force_intensities[1 : i])
-            upoint[:set_data](xs[i], normalized_leg_force_intensities[i])
+            upoint[:set_data](xs[state_ind], normalized_leg_force_intensities[state_ind])
         end
 
         # model plot
@@ -207,18 +214,19 @@ function sim_movie(model, state0, filename::ASCIIString;
             leg[:set_data]([0; x], [0; z])
             set_center(com, [x; z])
 
-            force_text_offset = [0.03; 0.]
+            fgrav_text_offset = [-0.08; 0.]
+            fleg_text_offset = [0.03; 0.]
             qdot_text_offset = [0.; 0.03]
 
             fgrav_tip = [x; z] + force_scale * [0; -model.g]
             fgrav[:set_positions]([x; z], fgrav_tip)
-            fgravtext[:set_position](fgrav_tip + force_text_offset)
+            fgravtext[:set_position](fgrav_tip + fgrav_text_offset)
 
-            fleg_tip = force_scale * leg_forces[i]
+            fleg_tip = force_scale * leg_forces[state_ind]
             fleg[:set_positions]([0; 0], fleg_tip)
-            flegtext[:set_position](fleg_tip + force_text_offset)
+            flegtext[:set_position](fleg_tip + fleg_text_offset)
 
-            if i == 1 && numstillframes > 0
+            if staticplot || (i == 1 && numstillframes > 0)
                 qdot_tip = [x; z] + velocity_scale * [xd; zd]
                 qdot[:set_positions]([x; z], qdot_tip)
                 qdottext[:set_position](qdot_tip + qdot_text_offset)
@@ -226,9 +234,13 @@ function sim_movie(model, state0, filename::ASCIIString;
                 qdot[:set_visible](false)
                 qdottext[:set_visible](false)
             end
+
+            if staticplot
+                ztraj_sim[:set_data](xs[1 : i], zs[1 : i])
+            end
         end
 
-        if !test
+        if !staticplot
             numframes = i == 1 ? numstillframes : 1
             for j in 1 : numframes
                 writer[:grab_frame]()
@@ -236,7 +248,7 @@ function sim_movie(model, state0, filename::ASCIIString;
         end
     end
 
-    if test
+    if staticplot
         ion()
         figure()
         show()
@@ -246,4 +258,6 @@ function sim_movie(model, state0, filename::ASCIIString;
     end
 
     plt[:rcdefaults]()
+
+    fig
 end
