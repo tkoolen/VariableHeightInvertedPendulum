@@ -1,5 +1,5 @@
 function sim_movie(model, state0, filename::ASCIIString;
-    test = false, fps = 30., realtimerate = 0.25, dpi = 300, simtime = 1., stilltime = 0.5,
+    test = false, fps = 30., realtimerate = 0.25, dpi = 100, simtime = 1., stilltime = 0.5,
     restrict_ztraj = false, show_region = false, model_only = false, show_orbital_energy = true, font_size = 14, fig_size = (8., 6.))
 
     ztraj_color = "#364b9f" # blue
