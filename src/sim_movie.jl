@@ -1,6 +1,6 @@
 function sim_movie(model, state0, filename::ASCIIString;
     staticplot = false, fps = 30., realtimerate = 0.25, dpi = 100, simtime = 1., stilltime = 0.5,
-    restrict_ztraj = false, show_region = false, model_only = false, show_orbital_energy = true, font_size = 12, fig_size = (8., 6.))
+    restrict_ztraj = false, show_region = false, model_only = false, show_orbital_energy = true, font_size = 14, fig_size = (8., 6.))
 
     ztraj_color = "#364b9f" # blue
     force_color = "#f37620" # orange
@@ -214,7 +214,7 @@ function sim_movie(model, state0, filename::ASCIIString;
             leg[:set_data]([0; x], [0; z])
             set_center(com, [x; z])
 
-            fgrav_text_offset = [-0.08; 0.]
+            fgrav_text_offset = [-0.1; 0.]
             fleg_text_offset = [0.03; 0.]
             qdot_text_offset = [0.; 0.03]
 
