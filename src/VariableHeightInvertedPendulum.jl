@@ -15,12 +15,14 @@ include("scenario.jl")
 include("plotutil.jl")
 include("lipm.jl")
 include("polynomial_variable_height.jl")
+include("cubic_controlled_variable_height_inverted_pendulum.jl")
 include("com_symbol.jl")
 include("sim_movie.jl")
 
 export
     LIPM,
     PolynomialVariableHeightModel,
+    CubicControlledVariableHeightInvertedPendulum,
     Scenario,
     velocity_given_orbital_energy,
     sim_movie,
