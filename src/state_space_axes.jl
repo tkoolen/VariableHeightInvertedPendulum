@@ -13,7 +13,7 @@ type StateSpaceAxes
             plt[:sca](ax)
             xlim(xrange)
             ylim(xdrange)
-            
+
             xticks(collect(tickmark_locations(xrange, 0.1)))
 
             # axis lines
@@ -24,7 +24,7 @@ type StateSpaceAxes
             # plot(xrange,  ω * xrange, "k--", linewidth = 1.0, zorder = 1)
             if show_icp_line
                 icpline = plot(xrange, -ω * xrange, "k--", linewidth = 1.0, zorder = 1, label = L"x + \sqrt{\frac{z_\mathrm{f}}{g}} \dot{x} = 0")
-                legend(handles = collect(icpline), frameon = true, handlelength = 3, handletextpad = 0, borderaxespad = 0.5, fontsize = 14, loc = "lower left")
+                legend(handles = collect(icpline), frameon = false, handlelength = 3, handletextpad = 0, borderaxespad = 0.5, fontsize = 14, loc = "lower left")
             end
 
             # ICP line annotation

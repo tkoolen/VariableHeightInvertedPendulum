@@ -1,5 +1,5 @@
 function sim_figure(scenario::Scenario;
-    simtime = 1., restrict_ztraj = false, show_region = false, show_icp_line = true, model_only = false, show_orbital_energy = false, font_size = 15, fig_size = (8., 6.),
+    simtime = 1., restrict_ztraj = false, show_region = false, show_icp_line = true, model_only = false, show_orbital_energy = false, font_size = 15, fig_size = (8., 5.5),
     show_gravity = false, show_leg_force = false, export_dir = "../figures", do_export = false)
 
     model = scenario.model
