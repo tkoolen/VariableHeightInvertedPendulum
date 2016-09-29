@@ -1,3 +1,6 @@
+using IJulia
+# import IJulia: InlineDisplay
+
 function sim_movie(scenario::Scenario;
     fps = 30., realtimerate = 0.25, dpi = 100, simtime = 1., stilltime = 0.5,
     restrict_ztraj = false, show_region = false, show_icp_line = false, model_only = false, show_orbital_energy = false, font_size = 15, fig_size = (8., 6.), show_gravity = true, show_leg_force = true,
@@ -38,5 +41,12 @@ function sim_movie(scenario::Scenario;
     end
     writer[:finish]()
 
+    plt[:close](fig.fig)
     plt[:rcdefaults]()
+
+    if do_export && any(map(d -> isa(d, IJulia.InlineDisplay), Base.Multimedia.displays))
+        display_mp4(filename)
+    end
+
+    nothing
 end
