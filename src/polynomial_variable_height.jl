@@ -1,5 +1,5 @@
 type PolynomialVariableHeightModel
-    name::ASCIIString
+    name::String
     g::Float64
     f::Poly{Float64}
     fp::Poly{Float64}
@@ -19,7 +19,8 @@ getx(model::PolynomialVariableHeightModel, state::Vector{Float64}) = state[1]
 getxd(model::PolynomialVariableHeightModel, state::Vector{Float64}) = state[2]
 getz(model::PolynomialVariableHeightModel, state::Vector{Float64}) = polyval(model.f, getx(model, state))
 getzd(model::PolynomialVariableHeightModel, state::Vector{Float64}) = polyval(polyder(model.f), getx(model, state)) * getxd(model, state)
-getztraj(model::PolynomialVariableHeightModel, x::Float64) = polyval(model.f, x)
+getztraj(model::PolynomialVariableHeightModel, state0, x::Float64) = polyval(model.f, x)
+getzf(model::PolynomialVariableHeightModel) = polyval(model.f, 0.)
 
 function leg_u(model::PolynomialVariableHeightModel, state::Vector{Float64})
     g = model.g
@@ -31,13 +32,9 @@ function leg_u(model::PolynomialVariableHeightModel, state::Vector{Float64})
     u = (g + fpp * xd^2) / (z - fp * x)
 end
 
-function normalized_leg_force(model::PolynomialVariableHeightModel, state::Vector{Float64})
-    leg_u(model, state) * [getx(model, state); getz(model, state)]
-end
-
 function odefun(model::PolynomialVariableHeightModel, state::Vector)
     xd = getxd(model, state)
-    xdd = normalized_leg_force(model, state)[1]
+    xdd = leg_u(model, state) * getx(model, state)
     [xd; xdd]
 end
 
