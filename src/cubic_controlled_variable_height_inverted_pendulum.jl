@@ -1,5 +1,5 @@
 type CubicControlledVariableHeightInvertedPendulum
-    name::ASCIIString
+    name::String
     g::Float64
     zf::Float64
     clip_u::Bool
@@ -9,6 +9,7 @@ getx(model::CubicControlledVariableHeightInvertedPendulum, state) = state[1]
 getz(model::CubicControlledVariableHeightInvertedPendulum, state) = state[2]
 getxd(model::CubicControlledVariableHeightInvertedPendulum, state) = state[3]
 getzd(model::CubicControlledVariableHeightInvertedPendulum, state) = state[4]
+getzf(model::CubicControlledVariableHeightInvertedPendulum) = model.zf
 unpack(model::CubicControlledVariableHeightInvertedPendulum, state) = (getx(model, state), getz(model, state), getxd(model, state), getzd(model, state))
 
 function controller(model::CubicControlledVariableHeightInvertedPendulum, state)

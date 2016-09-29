@@ -1,5 +1,5 @@
 type LIPM
-    name::ASCIIString
+    name::String
     g::Float64
     z0::Float64
     ω::Float64
@@ -11,6 +11,7 @@ getxd(model::LIPM, state::Vector{Float64}) = state[2]
 getz(model::LIPM, state::Vector{Float64}) = model.z0
 getzd(model::LIPM, state::Vector{Float64}) = 0.
 getztraj(model::LIPM, state0, x::Float64) = model.z0
+getzf(model::LIPM) = model.z0
 leg_u(model::LIPM, state::Vector{Float64}) = model.g / model.z0
 
 function odefun(model::LIPM, state::Vector)
