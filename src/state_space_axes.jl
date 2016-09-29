@@ -13,7 +13,8 @@ type StateSpaceAxes
             plt[:sca](ax)
             xlim(xrange)
             ylim(xdrange)
-            xticks([-0.3; -0.2; -0.1; 0.])
+            
+            xticks(collect(tickmark_locations(xrange, 0.1)))
 
             # axis lines
             axhline(linewidth = 0.5, color = "black")

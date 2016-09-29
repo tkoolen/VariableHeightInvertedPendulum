@@ -10,3 +10,12 @@ function display_mp4(filename)
     display("text/html", string("""<video autoplay controls><source src="data:video/x-m4v;base64,""",
     base64encode(open(readbytes,filename)),"""" type="video/mp4"></video>"""))
 end
+
+function tickmark_locations(range, tick_delta)
+    range_scaled = range ./ tick_delta
+    range_scaled[1] -= eps()
+    range_scaled[2] += eps()
+    min_tick = ceil(range_scaled[1]) * tick_delta
+    max_tick = floor(range_scaled[2]) * tick_delta
+    min_tick : tick_delta : max_tick
+end

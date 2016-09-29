@@ -9,7 +9,7 @@ type ForceAxes
             plt[:sca](ax)
             xlim(xrange)
             ylim(min(0, normalized_leg_force_intensities...), 1.1 * max(normalized_leg_force_intensities...))
-            xticks([-0.3; -0.2; -0.1; 0.]) # TODO
+            xticks(collect(tickmark_locations(xrange, 0.1)))
 
             # axis line
             axhline(linewidth = 0.5, color = "black")

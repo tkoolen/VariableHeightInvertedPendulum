@@ -92,7 +92,7 @@ function update(model_ax::ModelAxes, results::SimulationResults, state_ind_range
     set_center(model_ax.com, [x; z])
 
     if model_ax.show_gravity
-        fgrav_text_offset = [-0.1; 0.]
+        fgrav_text_offset = [-0.12; 0.]
         fgrav_tip = [x; z] + model_ax.force_scale * [0; -model.g]
         model_ax.fgrav[:set_positions]([x; z], fgrav_tip)
         model_ax.fgravtext[:set_position](fgrav_tip + fgrav_text_offset)
