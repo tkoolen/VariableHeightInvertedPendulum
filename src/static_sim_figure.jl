@@ -12,7 +12,7 @@ function sim_figure(scenario::Scenario;
     fig = SimulationFigure(results, fig_size, font_size, model_only, restrict_ztraj, show_region, show_icp_line, show_orbital_energy, show_gravity, show_leg_force)
 
     for i in 0 : snapshots - 1
-      time_index = Int64(floor((length(ts) - 1) * i / (snapshots - 1))) + 1
+      time_index = snapshots > 1 ? Int64(floor((length(ts) - 1) * i / (snapshots - 1))) + 1 : 1
       if i > 0
         fig.model_ax.show_qdot = false
       end

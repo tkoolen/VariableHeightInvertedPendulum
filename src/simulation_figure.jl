@@ -7,6 +7,12 @@ type SimulationFigure
     function SimulationFigure(results::SimulationResults, fig_size, font_size, model_only, restrict_ztraj, show_region, show_icp_line, show_orbital_energy, show_gravity, show_leg_force)
         fig = figure(figsize = fig_size)
         plt[:rc]("font", size = font_size, family = "serif")
+
+        # don't use type 3 fonts
+        # http://phyletica.org/matplotlib-fonts/
+        plt[:rc]("pdf", fonttype = 42)
+        plt[:rc]("ps", fonttype = 42)
+
         axes = []
 
         model = results.model
