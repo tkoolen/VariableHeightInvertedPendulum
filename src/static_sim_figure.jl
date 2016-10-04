@@ -12,8 +12,11 @@ function sim_figure(scenario::Scenario;
     fig = SimulationFigure(results, fig_size, font_size, model_only, restrict_ztraj, show_region, show_icp_line, show_orbital_energy, show_gravity, show_leg_force)
 
     for i in 0 : snapshots - 1
-      index = Int64(floor((length(ts) - 1) * i / (snapshots - 1))) + 1
-      update(fig, results, 1 : length(ts), index)
+      time_index = Int64(floor((length(ts) - 1) * i / (snapshots - 1))) + 1
+      if i > 0
+        fig.model_ax.show_qdot = false
+      end
+      update(fig, results, 1 : length(ts), time_index)
 
       if do_export
           !isdir(export_dir) && mkdir(export_dir)
