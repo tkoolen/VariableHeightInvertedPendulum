@@ -1,6 +1,6 @@
 # VariableHeightInvertedPendulum
 
-This repository contains code associated with
+This repository contains code associated with the paper "Balance control using center of mass height variation: limitations imposed by unilateral contact".
 
 ```tex
 @inproceedings{Koolen2016balance,
