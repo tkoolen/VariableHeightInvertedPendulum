@@ -14,30 +14,30 @@ This repository contains code associated with the paper "Balance control using c
 ```
 
 ## Mathematica
-The Mathematica notebook in the `mathematica` directory contains checks/derivations of all of the main results in the paper, as well as the application of the CAD algorithm. It also contains code for generating two of the plots in the paper.
+The Mathematica notebook in the `mathematica` directory contains checks/derivations of all of the main results in the paper (including the the application of the CAD algorithm). It also contains code for generating two of the plots in the paper.
 
 The Mathematica code has only been tested in Mathematica 10.4.1.0.
 
 ## Julia
-The `src` and `notebook` directories contain Julia code used to run the simulations and create related plots presented in the paper. The `notebook` directory contains IJulia notebooks that can be easily modified to visualize additional initial conditions. Visualizing these simulations using animations is also possible.
+The `src`directory contain Julia code for running simulations of the variable-height inverted pendulum and creating the simulation plots presented in the paper. The `notebook` directory contains IJulia notebooks that call the code in `src` for a few initial conditions, including those shown in the paper. These notebooks can be easily modified to visualize additional initial conditions. Animation of these simulation results is also available.
 
 To install the Julia code, perform the following steps:
 
 1. Install Julia 0.5 from http://julialang.org/downloads/.
-1. (Optional, but recommended) create a separate Julia package directory (which will contain the code in this repo and all dependencies). If you skip this step, everything will get installed into the default, global julia package directory, which may be alright. On OSX/Linux:
-``mkdir ~/VariableHeightInvertedPendulum && cd ~/VariableHeightInvertedPendulum && export JULIA_PKGDIR=`pwd``` 
+1. (Optional, but recommended) create a separate Julia package directory (which will contain the code in this repo and all dependencies). If you skip this step, everything will get installed into the default, global julia package directory, which is alright if you're a casual user but can potentially lead to dependency version clashes if you install other packages. On OSX/Linux:
+``mkdir ~/VariableHeightInvertedPendulum && cd ~/VariableHeightInvertedPendulum && export JULIA_PKGDIR=`pwd` `` 
 1. Run `julia` from the command line.
 1. Enter `Pkg.init()` to initialize the package directory.
 1. Enter `Pkg.clone("https://github.com/tkoolen/VariableHeightInvertedPendulum.git")` to get this package and all of its dependencies.
 
-After this installation procedure, the IJulia notebooks can be run using the following commands:
+After this installation procedure, the IJulia notebooks can be run using the following commands from the Julia command line:
 
-1. `julia using VariableHeightInvertedPendulum`
+1. `using VariableHeightInvertedPendulum`
 1. `IJulia.notebook(dir = Pkg.dir("VariableHeightInvertedPendulum") * "/notebook")`
 
-A browser window should pop up, showing various notebooks. Click one to open; the rest should speak for itself.
+A browser window should pop up, showing various notebooks. Click one to open; the rest should speak for itself (shift + Enter is the shortcut to run a cell and advance to the next).
 
-If you're using a new terminal and didn't skip the optional installation step, make sure you set `JULIA_PKGDIR` before starting Julia (``cd ~/VariableHeightInvertedPendulum && export JULIA_PKGDIR=`pwd```)
+If you didn't skip the optional installation step, make sure you set `JULIA_PKGDIR` before starting Julia (``cd ~/VariableHeightInvertedPendulum && export JULIA_PKGDIR=`pwd` ``) any time you open a new terminal.
 
 To create animations, you may have to install `ffmpeg` (`sudo apt-get install ffmpeg` on Ubuntu, `brew install ffmpeg` on OSX).
 
