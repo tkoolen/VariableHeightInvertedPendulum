@@ -19,7 +19,7 @@ The Mathematica notebook in the `mathematica` directory contains checks/derivati
 The Mathematica code has only been tested in Mathematica 10.4.1.0.
 
 ## Julia
-The `src`directory contains Julia code for running simulations of the variable-height inverted pendulum and creating the simulation plots presented in the paper. The `notebook` directory contains IJulia notebooks that call the code in `src` for a few initial conditions, including those shown in the paper. These notebooks can be easily modified to visualize additional initial conditions. Animation of the simulation results is also available.
+The `src` directory contains Julia code for running simulations of the variable-height inverted pendulum and creating the simulation plots presented in the paper. The `notebook` directory contains IJulia notebooks that call the code in `src` for a few initial conditions, including those shown in the paper. These notebooks can be easily modified to visualize additional initial conditions. Animation of the simulation results is also available.
 
 The Julia code has only been tested on Ubuntu 16.04 and OSX 10.11.6. To use the Julia code, perform the following steps:
 
