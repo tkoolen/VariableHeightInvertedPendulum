@@ -21,7 +21,7 @@ The Mathematica code has only been tested in Mathematica 10.4.1.0.
 ## Julia
 The `src`directory contain Julia code for running simulations of the variable-height inverted pendulum and creating the simulation plots presented in the paper. The `notebook` directory contains IJulia notebooks that call the code in `src` for a few initial conditions, including those shown in the paper. These notebooks can be easily modified to visualize additional initial conditions. Animation of these simulation results is also available.
 
-To install the Julia code, perform the following steps:
+The Julia code has only been tested on Ubuntu 16.04 and OSX 10.11.6.To install the Julia code, perform the following steps:
 
 1. Install Julia 0.5 from http://julialang.org/downloads/.
 1. (Optional, but recommended) create a separate Julia package directory (which will contain the code in this repo and all dependencies). If you skip this step, everything will get installed into the default, global julia package directory, which is alright if you're a casual user but can potentially lead to dependency version clashes if you install other packages. On OSX/Linux:
@@ -40,4 +40,6 @@ A browser window should pop up, showing various notebooks. Click one to open; th
 If you didn't skip the optional installation step, make sure you set `JULIA_PKGDIR` before starting Julia (``cd ~/VariableHeightInvertedPendulum && export JULIA_PKGDIR=`pwd` ``) any time you open a new terminal.
 
 To create animations, you may have to install `ffmpeg` (`sudo apt-get install ffmpeg` on Ubuntu, `brew install ffmpeg` on OSX).
+
+Feel free to open an issue if there are any problems.
 
