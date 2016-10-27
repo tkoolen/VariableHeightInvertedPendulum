@@ -41,6 +41,10 @@ export
     sim_movie,
     sim_figure,
     zero_orbital_energy_trajectory,
-    is_force_always_nonnegative
+    is_force_always_nonnegative,
+    getx,
+    getz,
+    getxd,
+    getzd
 
 end # module

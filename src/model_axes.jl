@@ -28,7 +28,9 @@ type ModelAxes
         z0 = getz(model, results.state0)
         zf = getzf(model)
         zref = max(z0, zf)
-        zrange_model = [-0.05 * zref; 1.2 * zref]
+        zrange_min = -0.2 * zref
+        zrange_max = 1.15 * zref
+        zrange_model = [zrange_min; zrange_max]
         # ret.force_scale = (diff(zrange_model)[1] / 4) / max(map(f -> f[2], leg_forces)...)
         ret.force_scale = (diff(zrange_model)[1] / 4) / model.g
         ret.velocity_scale = (diff(xrange_model)[1] / 3)
@@ -48,6 +50,7 @@ type ModelAxes
         xlim(xrange_model)
         ylim(zrange_model)
         xticks([-0.4; -0.2; 0.; 0.2; 0.4])
+        tickmark_locations([minimum(xrange_model), maximum(xrange_model)], 0.2)
 
         # dynamic objects
         # plt[:sca](ax)

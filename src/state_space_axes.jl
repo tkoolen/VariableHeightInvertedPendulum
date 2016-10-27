@@ -14,7 +14,7 @@ type StateSpaceAxes
             xlim(xrange)
             ylim(xdrange)
 
-            xticks(collect(tickmark_locations(xrange, 0.1)))
+            xticks(collect(tickmark_locations(xrange, 0.2)))
 
             # axis lines
             axhline(linewidth = 0.5, color = "black")
