@@ -11,11 +11,14 @@ type ModelAxes
     qdot
     qdottext
     ztraj_sim
-    show_gravity
-    show_leg_force
-    show_qdot
+    ballistic_trajectory
+    ballistic_z_intercept
+    show_gravity::Bool
+    show_leg_force::Bool
+    show_qdot::Bool
+    show_ballistic::Bool
 
-    function ModelAxes(ax, results::SimulationResults, xrange, font_size, restrict_ztraj, show_gravity, show_leg_force)
+    function ModelAxes(ax, results::SimulationResults, xrange, font_size, restrict_ztraj, show_gravity, show_leg_force, show_ballistic)
         ret = new(ax)
 
         com_radius = 0.05
@@ -76,6 +79,12 @@ type ModelAxes
 
         ret.ztraj_sim = plot([], [], color = ztraj_color, zorder = 6, label = "simulation")[1]
 
+        if show_ballistic
+            ret.ballistic_trajectory = plot([], [], color = ztraj_color, linestyle = "dashed", zorder = 6, label = "ballistic trajectory")[1]
+            ret.ballistic_z_intercept = plot([], [], color = ztraj_color, marker = "+", markersize = 25., zorder = 6)[1]
+        end
+        ret.show_ballistic = show_ballistic
+
         # legend(handles = [ztraj; ztraj_sim], frameon = true, handlelength = 3, handletextpad = 0, borderaxespad = 0.5, fontsize = 12)
         ret
     end
@@ -116,5 +125,20 @@ function update(model_ax::ModelAxes, results::SimulationResults, state_ind_range
     end
 
     model_ax.ztraj_sim[:set_data](results.xs[state_ind_range], results.zs[state_ind_range])
+
+    if model_ax.show_ballistic
+        ballistic_xs = linspace(x, zero(x), 100)
+        ballistic_zs = similar(ballistic_xs)
+        for (i, ballistic_x) in enumerate(ballistic_xs)
+            t = (ballistic_x - x) / xd
+            ballistic_zs[i] = z + zd * t - 1/2 * model.g * t^2
+        end
+
+        model_ax.ballistic_trajectory[:set_data](ballistic_xs, ballistic_zs)
+        bla1 = [last(ballistic_xs)]
+        bla2 = [last(ballistic_zs)]
+        model_ax.ballistic_z_intercept[:set_data](bla1, bla2)
+    end
+
     nothing
 end
