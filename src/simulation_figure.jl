@@ -4,7 +4,8 @@ type SimulationFigure
     model_ax
     show_orbital_energy
 
-    function SimulationFigure(results::SimulationResults, fig_size, font_size, model_only, restrict_ztraj, show_region, show_icp_line, show_orbital_energy, show_gravity, show_leg_force)
+    function SimulationFigure(results::SimulationResults, fig_size, font_size, model_only, restrict_ztraj,
+            show_region, show_icp_line, show_orbital_energy, show_gravity, show_leg_force, show_ballistic)
         fig = figure(figsize = fig_size)
         plt[:rc]("font", size = font_size, family = "serif")
 
@@ -31,11 +32,11 @@ type SimulationFigure
 
         axes = []
         if model_only
-            model_ax = ModelAxes(gca(), results, xrange, font_size, restrict_ztraj, show_gravity, show_leg_force)
+            model_ax = ModelAxes(gca(), results, xrange, font_size, restrict_ztraj, show_gravity, show_leg_force, show_ballistic)
         else
             push!(axes, StateSpaceAxes(plt[:subplot2grid]((2,2), (0,0)), xrange, xdrange, ω, show_region, show_icp_line))
             push!(axes, ForceAxes(plt[:subplot2grid]((2,2), (1,0)), xrange, results.normalized_leg_force_intensities))
-            model_ax = ModelAxes(plt[:subplot2grid]((2,2), (0, 1), rowspan=2), results, xrange, font_size, restrict_ztraj, show_gravity, show_leg_force)
+            model_ax = ModelAxes(plt[:subplot2grid]((2,2), (0, 1), rowspan=2), results, xrange, font_size, restrict_ztraj, show_gravity, show_leg_force, show_ballistic)
         end
         push!(axes, model_ax)
 

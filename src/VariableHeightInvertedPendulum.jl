@@ -20,7 +20,7 @@ include("scenario.jl")
 include("plotutil.jl")
 include("lipm.jl")
 include("polynomial_variable_height.jl")
-include("cubic_controlled_variable_height_inverted_pendulum.jl")
+include("controlled_variable_height_inverted_pendulum.jl")
 include("com_symbol.jl")
 include("simulation_results.jl")
 include("state_space_axes.jl")
@@ -33,11 +33,18 @@ include("sim_movie.jl")
 export
     LIPM,
     PolynomialVariableHeightModel,
-    CubicControlledVariableHeightInvertedPendulum,
+    ControlledVariableHeightInvertedPendulum,
     Scenario,
+    cubic_orbital_energy_controller,
+    cubic_clipped_controller,
     velocity_given_orbital_energy,
     sim_movie,
     sim_figure,
     zero_orbital_energy_trajectory,
-    is_force_always_nonnegative
-end
+    is_force_always_nonnegative,
+    getx,
+    getz,
+    getxd,
+    getzd
+
+end # module

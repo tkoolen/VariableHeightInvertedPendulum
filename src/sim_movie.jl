@@ -3,7 +3,8 @@ using IJulia
 
 function sim_movie(scenario::Scenario;
     fps = 30., realtimerate = 0.25, dpi = 100, simtime = 1., stilltime = 0.5,
-    restrict_ztraj = false, show_region = false, show_icp_line = false, model_only = false, show_orbital_energy = false, font_size = 15, fig_size = (8., 6.), show_gravity = true, show_leg_force = true,
+    restrict_ztraj = false, show_region = false, show_icp_line = false, model_only = false,
+    show_orbital_energy = false, font_size = 15, fig_size = (8., 6.), show_gravity = true, show_leg_force = true, show_ballistic = false,
     export_dir = "../movies", do_export = false)
 
     model = scenario.model
@@ -19,7 +20,8 @@ function sim_movie(scenario::Scenario;
     results = SimulationResults(model, state0, ts)
 
     ioff()
-    fig = SimulationFigure(results, fig_size, font_size, model_only, restrict_ztraj, show_region, show_icp_line, show_orbital_energy, show_gravity, show_leg_force)
+    fig = SimulationFigure(results, fig_size, font_size, model_only, restrict_ztraj,
+        show_region, show_icp_line, show_orbital_energy, show_gravity, show_leg_force, show_ballistic)
 
     FFMpegWriter = get(anim.writers, "ffmpeg")
     writer = FFMpegWriter(fps = fps, extra_args=["-vcodec", "libx264", "-pix_fmt", "yuv420p"])
