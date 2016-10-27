@@ -1,0 +1,14 @@
+language: julia
+os:
+  - linux
+#  - osx
+julia:
+  - 0.5
+notifications:
+  email: false
+before_install:
+  - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
+script:
+  - julia -e 'Pkg.clone(pwd()); Pkg.build("VariableHeightInvertedPendulum"); Pkg.test("VariableHeightInvertedPendulum"; coverage=true)'
+after_success:
+  - julia -e 'cd(Pkg.dir("VariableHeightInvertedPendulum")); Pkg.add("Coverage"); using Coverage; Codecov.submit(Codecov.process_folder())'
