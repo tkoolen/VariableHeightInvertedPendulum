@@ -6,8 +6,11 @@ julia:
   - 0.5
 notifications:
   email: false
+env:
+    global:
+    - PYTHON=conda
 before_install:
-  - pip install matplotlib
+  - julia -e 'Pkg.add("Conda"); using Conda; Conda.add("matplotlib")'
   - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
 script:
   - julia -e 'Pkg.clone(pwd()); Pkg.build("VariableHeightInvertedPendulum"); Pkg.test("VariableHeightInvertedPendulum"; coverage=true)'
