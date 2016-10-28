@@ -10,7 +10,7 @@ addons:
   apt:
     packages:
     - ffmpeg
-    - x264
+    - libx264-dev
 env:
     global:
     - PYTHON=conda
