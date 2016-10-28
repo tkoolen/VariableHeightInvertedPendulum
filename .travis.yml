@@ -6,6 +6,8 @@ julia:
   - 0.5
 notifications:
   email: false
+sudo: required
+dist: trusty
 addons:
   apt:
     packages:
