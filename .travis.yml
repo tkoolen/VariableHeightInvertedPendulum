@@ -10,6 +10,8 @@ sudo: required
 dist: trusty
 addons:
   apt:
+    sources:
+    - sourceline: 'ppa:jon-severinsson/ffmpeg'
     packages:
     - ffmpeg
     - libx264-dev
