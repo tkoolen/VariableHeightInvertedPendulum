@@ -11,7 +11,7 @@ dist: trusty
 addons:
   apt:
     sources:
-    - sourceline: 'ppa:jon-severinsson/ffmpeg'
+    - sourceline: 'ppa:mc3man/trusty-media'
     packages:
     - ffmpeg
     - libx264-dev
