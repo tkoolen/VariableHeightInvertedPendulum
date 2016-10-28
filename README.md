@@ -1,4 +1,5 @@
 # VariableHeightInvertedPendulum
+[![Build Status](https://travis-ci.org/tkoolen/VariableHeightInvertedPendulum.svg?branch=master)](https://travis-ci.org/tkoolen/VariableHeightInvertedPendulum)
 
 This repository contains code associated with the paper "Balance control using center of mass height variation: limitations imposed by unilateral contact".
 
@@ -25,7 +26,7 @@ Non-interactive online preview of the notebooks:
 * [figures from paper](http://nbviewer.jupyter.org/github/tkoolen/VariableHeightInvertedPendulum/blob/master/notebook/PaperFigures.ipynb)
 * [additional figures and animations](http://nbviewer.jupyter.org/github/tkoolen/VariableHeightInvertedPendulum/blob/master/notebook/AdditionalFiguresAndAnimations.ipynb)
 
-The notebooks can be easily modified to visualize additional initial conditions. Interacting with the notebooks requires installing Julia as well as this package. The Julia code has only been tested on Ubuntu 16.04 and OSX 10.11.6. To use the Julia code, perform the following steps:
+The notebooks can be easily modified to visualize additional initial conditions. Interacting with the notebooks requires installing Julia as well as this package. The Julia code has been tested on Ubuntu 14.04 and 16.04, and on OSX 10.11.6. To use the Julia code, perform the following steps:
 
 1. Install Julia 0.5 from http://julialang.org/downloads/.
 1. (Optional, but recommended) create a separate Julia package directory (which will contain the code in this repo and all dependencies). If you skip this step, everything will get installed into the default, global julia package directory, which is alright if you're a casual user but can potentially lead to dependency version clashes if you install other packages. On OSX/Linux:
@@ -43,7 +44,7 @@ A browser window should pop up, showing various notebooks. Click one to open; th
 
 If you didn't skip the optional installation step, make sure you set `JULIA_PKGDIR` before starting Julia (``cd ~/VariableHeightInvertedPendulum && export JULIA_PKGDIR=`pwd` ``) any time you open a new terminal.
 
-To create animations, you may have to install `ffmpeg` (`sudo apt-get install ffmpeg` on Ubuntu, `brew install ffmpeg` on OSX).
+To create animations, you may have to install `ffmpeg` (`sudo apt-get install ffmpeg` on Ubuntu 16.04, `brew install ffmpeg` on OSX). For Ubuntu 14.04 see the `.travis.yml` for how to set up ffmpeg.
 
 Feel free to open an issue if there are any problems.
 
