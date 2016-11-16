@@ -1,5 +1,5 @@
 function sim_figure(scenario::Scenario;
-    simtime = 1., restrict_ztraj = false, show_region = false, show_icp_line = true, model_only = false,
+    simtime = 1., restrict_ztraj = false, show_region = false, show_region2 = false, show_icp_line = true, model_only = false,
     show_orbital_energy = false, show_ballistic = false, font_size = 15, fig_size = (8., 5.5),
     show_gravity = false, show_leg_force = false, export_dir = "../figures", do_export = false, snapshots = 1)
 
@@ -11,7 +11,7 @@ function sim_figure(scenario::Scenario;
 
     ioff()
     fig = SimulationFigure(results, fig_size, font_size, model_only, restrict_ztraj,
-        show_region, show_icp_line, show_orbital_energy, show_gravity, show_leg_force, show_ballistic)
+        show_region, show_region2, show_icp_line, show_orbital_energy, show_gravity, show_leg_force, show_ballistic)
 
     for i in 0 : snapshots - 1
       time_index = snapshots > 1 ? Int64(floor((length(ts) - 1) * i / (snapshots - 1))) + 1 : 1
