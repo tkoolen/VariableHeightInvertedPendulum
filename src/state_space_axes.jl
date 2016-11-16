@@ -3,11 +3,13 @@ type StateSpaceAxes
     xrange::Vector{Float64}
     xdrange::Vector{Float64}
     show_region
+    show_region2
     traj
     point
     validcontour
+    validcontour2
 
-    function StateSpaceAxes(ax, xrange, xdrange, ω, show_region, show_icp_line)
+    function StateSpaceAxes(ax, xrange, xdrange, ω, show_region, show_region2, show_icp_line)
         # static objects
         let
             plt[:sca](ax)
@@ -43,8 +45,9 @@ type StateSpaceAxes
         traj = plot([], [], color = "red")[1]
         point = plot([], [], "ro")[1]
         validcontour = nothing
+        validcontour2 = nothing
 
-        new(ax, xrange, xdrange, show_region, traj, point, validcontour)
+        new(ax, xrange, xdrange, show_region, show_region2, traj, point, validcontour, validcontour2)
     end
 end
 
@@ -72,6 +75,16 @@ function update(ss_ax::StateSpaceAxes, results::SimulationResults, state_ind_ran
         opposite_velocity_mask = max(-sign((x_grid .* xd_grid)), 0)
         valid = is_force_always_nonnegative_condition2(model.g, x_grid, z, xd_grid, zd, zf) .* opposite_velocity_mask
         ss_ax.validcontour = contourf(x_grid, xd_grid, valid, levels = [0, Inf], colors = "g", alpha = 0.6, zorder = 1)
+
+        if ss_ax.show_region2
+            if ss_ax.validcontour2 != nothing
+                for collection in ss_ax.validcontour2[:collections]
+                    collection[:remove]()
+                end
+            end
+            zcrit = z .- zd .* x_grid ./ xd_grid - model.g .* x_grid.^2 ./ (2 * xd_grid.^2)
+            ss_ax.validcontour2 = contourf(x_grid, xd_grid, zcrit, levels = [0, Inf], colors = "g", alpha = 0.2, zorder = 0)
+        end
     end
     nothing
 end
