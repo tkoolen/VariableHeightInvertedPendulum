@@ -24,7 +24,9 @@ type ForceAxes
         # dynamic objects
         plt[:sca](ax)
         utraj = plot([], [], color = force_color)[1]
+        utraj[:set_clip_on](false)
         upoint = plot([], [], "o", color = force_color)[1]
+        upoint[:set_clip_on](false)
 
         new(ax, utraj, upoint)
     end
